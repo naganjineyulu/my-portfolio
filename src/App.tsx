@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -15,11 +16,17 @@ function App() {
   useEffect(() => {
     const onScroll = () => {
       const scrolled = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const total =
+        document.documentElement.scrollHeight - window.innerHeight;
+
       setProgress(total > 0 ? (scrolled / total) * 100 : 0);
     };
+
     window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
   }, []);
 
   return (
@@ -30,18 +37,46 @@ function App() {
         style={{ width: `${progress}%` }}
       />
 
+      {/* Animated particle background */}
       <ParticleBackground />
 
       <div className="relative z-10">
+        {/* Navigation */}
         <Navbar />
+
         <main>
-          <Hero />
-          <About />
-          <Skills />
-          <Projects />
-          <Experience />
-          <Contact />
+          {/* Home / Hero Section */}
+          <section id="home">
+            <Hero />
+          </section>
+
+          {/* About Section */}
+          <section id="about">
+            <About />
+          </section>
+
+          {/* Skills Section */}
+          <section id="skills">
+            <Skills />
+          </section>
+
+          {/* Projects Section */}
+          <section id="projects">
+            <Projects />
+          </section>
+
+          {/* Experience Section */}
+          <section id="experience">
+            <Experience />
+          </section>
+
+          {/* Contact Section */}
+          <section id="contact">
+            <Contact />
+          </section>
         </main>
+
+        {/* Footer */}
         <Footer />
       </div>
     </div>
@@ -49,3 +84,4 @@ function App() {
 }
 
 export default App;
+
