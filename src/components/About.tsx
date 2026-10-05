@@ -29,15 +29,15 @@ export default function About() {
                 <div className="flex justify-center mb-6">
                   <img
                     src="/profile.png"
-                    alt="Naganjaneyulu Medaboina"
+                    alt="Naganjaneyulu - AI and Full Stack Developer"
                     className="h-40 w-40 rounded-full border-4 border-primary-500/30 object-cover shadow-xl"
                   />
                 </div>
                 <p className="text-slate-300 leading-relaxed mb-4">
-                  I'm <span className="text-primary-400 font-semibold">Naganjaneyulu Medaboina</span>, a Computer
-                  Science graduate with a passion for crafting digital experiences. I specialize in
-                  full-stack development using the <span className="text-primary-300">MERN stack</span> and
-                  love turning complex problems into clean, intuitive solutions.
+                  <span className="text-primary-400 font-semibold">Naganjaneyulu</span> is a Computer
+                  Science Engineering student specializing in Artificial Intelligence and an aspiring
+                  AI & Full Stack Developer. I build digital experiences with full-stack technologies
+                  and love turning complex problems into clean, intuitive solutions.
                 </p>
                 <p className="text-slate-400 leading-relaxed mb-4">
                   During my academic journey, I've built scalable web applications, RESTful APIs,

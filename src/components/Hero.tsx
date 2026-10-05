@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { ArrowDown, Github, Linkedin, Mail, Sparkles } from 'lucide-react';
+import { ArrowDown, Github, Mail, Sparkles } from 'lucide-react';
 import { useTypingEffect } from '@/hooks/useTypingEffect';
 
 export default function Hero() {
   const typed = useTypingEffect(
-    ['Full Stack Developer', 'MERN Stack Developer', 'UI/UX Enthusiast', 'Problem Solver'],
+    ['AI & Full Stack Developer', 'MERN Stack Developer', 'UI/UX Enthusiast', 'Problem Solver'],
     80,
     1800
   );
@@ -43,7 +43,7 @@ export default function Hero() {
         <div className={`mb-8 flex justify-center transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <img
             src="/profile.png"
-            alt="Naganjaneyulu Medaboina"
+            alt="Naganjaneyulu - AI and Full Stack Developer"
             className="h-32 w-32 rounded-full border-4 border-primary-500/40 object-cover shadow-[0_0_40px_rgba(34,211,238,0.25)] md:h-40 md:w-40"
           />
         </div>
@@ -72,8 +72,8 @@ export default function Hero() {
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          Computer Science graduate passionate about building scalable web applications
-          and elegant user experiences with the MERN stack and modern technologies.
+          AI & Full Stack Developer and Computer Science Engineering student specializing
+          in Artificial Intelligence, scalable web applications, and modern technologies.
         </p>
 
         <div
@@ -101,8 +101,7 @@ export default function Hero() {
           }`}
         >
           {[
-            { Icon: Github, href: 'https://github.com', label: 'GitHub' },
-            { Icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+            { Icon: Github, href: 'https://github.com/naganjineyulu', label: 'GitHub' },
             { Icon: Mail, href: '#contact', label: 'Email' },
           ].map(({ Icon, href, label }) => (
             <a

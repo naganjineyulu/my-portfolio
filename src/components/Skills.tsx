@@ -1,6 +1,6 @@
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import {
-  Code2, Database, Server, Layout, GitBranch, Cpu,
+  Database, Server, Layout,
 } from 'lucide-react';
 
 const skillGroups = [
@@ -38,8 +38,8 @@ const skillGroups = [
 
 const techBadges = [
   'React', 'Node.js', 'Express', 'MongoDB', 'JavaScript', 'TypeScript',
-  'Python', 'HTML', 'CSS', 'Tailwind', 'Git', 'REST API', 'JWT',
-  'Redux', 'Figma', 'Vercel', 'MySQL', 'C++', 'DSA',
+  'Python', 'AI', 'Machine Learning', 'HTML', 'CSS', 'Tailwind', 'Git',
+  'REST API', 'JWT', 'Redux', 'Figma', 'Vercel', 'MySQL', 'C++', 'DSA',
 ];
 
 export default function Skills() {

@@ -253,6 +253,81 @@ const projects: Project[] = [
     github: "https://github.com/naganjineyulu",
 
     demo: "#"
+  },
+
+  {
+    title: "ExamGuard-AI-Advanced",
+
+    description:
+      "An AI-focused exam security project for monitoring assessment workflows and supporting exam integrity.",
+
+    overview:
+      "ExamGuard-AI-Advanced is an AI-focused project built around exam security and assessment monitoring. It is presented as part of my AI portfolio work, showing how intelligent systems can support safer and more reliable digital exam workflows.",
+
+    workflow: [
+      {
+        title: "Exam Session Setup",
+        description: "An assessment session is prepared for monitoring."
+      },
+      {
+        title: "Candidate Verification",
+        description: "The system supports identity and session checks."
+      },
+      {
+        title: "AI Monitoring",
+        description: "Exam activity is monitored for unusual behavior."
+      },
+      {
+        title: "Alert Review",
+        description: "Flagged activity can be reviewed for exam integrity."
+      },
+      {
+        title: "Report Summary",
+        description: "A session summary helps review the assessment workflow."
+      }
+    ],
+
+    features: [
+      "Exam Monitoring",
+      "Candidate Verification",
+      "AI-Based Review",
+      "Alert Workflow",
+      "Session Summary"
+    ],
+
+    technologies: [
+      "AI",
+      "Machine Learning",
+      "Python",
+      "React"
+    ],
+
+    challenges: [
+      "Reliable Detection",
+      "User Privacy",
+      "Real-Time Workflow"
+    ],
+
+    future: [
+      "Improved Detection Accuracy",
+      "Detailed Analytics",
+      "Admin Review Dashboard"
+    ],
+
+    tags: [
+      "AI",
+      "Python",
+      "React",
+      "ML"
+    ],
+
+    gradient: "from-cyan-500/20 to-primary-600/10",
+
+    featured: true,
+
+    github: "https://github.com/naganjineyulu",
+
+    demo: "#"
   }
 ];
 

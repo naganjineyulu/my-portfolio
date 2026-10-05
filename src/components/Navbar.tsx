@@ -35,12 +35,15 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? 'glass py-3' : 'py-5 bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <nav
+        aria-label="Primary navigation"
+        className="max-w-7xl mx-auto px-6 flex items-center justify-between"
+      >
         <a href="#home" className="group flex items-center gap-2">
           <span className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary-500 to-cyan-400 text-dark-900 font-bold text-lg shadow-glow-blue transition-transform group-hover:scale-110">
             A
@@ -84,7 +87,7 @@ export default function Navbar() {
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
-      </div>
+      </nav>
 
       {open && (
         <div className="md:hidden glass mt-3 mx-4 rounded-xl p-4 animate-fade-in">
@@ -107,6 +110,6 @@ export default function Navbar() {
           </ul>
         </div>
       )}
-    </nav>
+    </header>
   );
 }

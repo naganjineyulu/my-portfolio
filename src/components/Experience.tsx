@@ -1,5 +1,5 @@
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { Briefcase, GraduationCap, Award } from 'lucide-react';
+import { Briefcase, Award } from 'lucide-react';
 
 const timeline = [
   {
@@ -47,6 +47,20 @@ const timeline = [
   {
     type: 'project',
     icon: Award,
+    title: 'ExamGuard-AI-Advanced',
+    org: 'AI Project',
+    period: '2026',
+    description:
+      'An AI-focused exam security project designed to support assessment monitoring and exam integrity workflows.',
+    points: [
+      'Built around candidate verification and monitored exam sessions',
+      'Uses AI-oriented review flows to identify unusual exam activity',
+      'Provides a structured summary workflow for reviewing flagged sessions',
+    ],
+  },
+  {
+    type: 'project',
+    icon: Briefcase,
     title: 'Farmer Friendly',
     org: 'Personal Project',
     period: '2026',

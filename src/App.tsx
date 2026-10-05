@@ -45,35 +45,12 @@ function App() {
         <Navbar />
 
         <main>
-          {/* Home / Hero Section */}
-          <section id="home">
-            <Hero />
-          </section>
-
-          {/* About Section */}
-          <section id="about">
-            <About />
-          </section>
-
-          {/* Skills Section */}
-          <section id="skills">
-            <Skills />
-          </section>
-
-          {/* Projects Section */}
-          <section id="projects">
-            <Projects />
-          </section>
-
-          {/* Experience Section */}
-          <section id="experience">
-            <Experience />
-          </section>
-
-          {/* Contact Section */}
-          <section id="contact">
-            <Contact />
-          </section>
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Experience />
+          <Contact />
         </main>
 
         {/* Footer */}
