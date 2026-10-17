@@ -101,7 +101,7 @@ export default function Hero() {
           }`}
         >
           {[
-            { Icon: Github, href: 'https://github.com/naganjineyulu', label: 'GitHub' },
+            { Icon: Github, href: 'https://github.com/naganjineyulu/my-portfolio', label: 'GitHub' },
             { Icon: Mail, href: '#contact', label: 'Email' },
           ].map(({ Icon, href, label }) => (
             <a

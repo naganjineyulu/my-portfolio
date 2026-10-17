@@ -98,9 +98,9 @@ const projects: Project[] = [
 
     featured: true,
 
-    github: "https://github.com/naganjineyulu",
+    github: "https://github.com/naganjineyulu/event_management",
 
-    demo: "#"
+    demo: "https://campus-events-managements.vercel.app/"
   },
 
   {
@@ -174,7 +174,7 @@ const projects: Project[] = [
 
     featured: true,
 
-    github: "https://github.com/naganjineyulu",
+    github: "https://github.com/naganjineyulu/AI-resume-screening-platform",
 
     demo: "#"
   },
@@ -250,7 +250,7 @@ const projects: Project[] = [
 
     featured: false,
 
-    github: "https://github.com/naganjineyulu",
+    github: "https://github.com/naganjineyulu/AI-Diet-Recommendation",
 
     demo: "#"
   },
@@ -325,7 +325,7 @@ const projects: Project[] = [
 
     featured: true,
 
-    github: "https://github.com/naganjineyulu",
+    github: "https://github.com/naganjineyulu/ExamGuard-AI-Advanced",
 
     demo: "#"
   }

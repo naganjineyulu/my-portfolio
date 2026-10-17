@@ -46,7 +46,7 @@ export default function Navbar() {
       >
         <a href="#home" className="group flex items-center gap-2">
           <span className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary-500 to-cyan-400 text-dark-900 font-bold text-lg shadow-glow-blue transition-transform group-hover:scale-110">
-            A
+            N
           </span>
           <span className="font-bold text-lg tracking-tight">
             <span className="gradient-text">Naganjaneyulu</span>
