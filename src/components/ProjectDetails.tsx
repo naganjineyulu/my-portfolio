@@ -50,25 +50,29 @@ export default function ProjectDetails({ project, onBack }: Props) {
 
           <div className="flex gap-4 mt-8">
 
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noreferrer"
-              className="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-600 transition flex items-center gap-2"
-            >
-              <Github size={18}/>
-              GitHub
-            </a>
+            {project.github !== "#" && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                className="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-600 transition flex items-center gap-2"
+              >
+                <Github size={18}/>
+                GitHub
+              </a>
+            )}
 
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noreferrer"
-              className="px-5 py-3 rounded-xl border border-cyan-500 hover:bg-cyan-500/20 transition flex items-center gap-2"
-            >
-              <ExternalLink size={18}/>
-              Live Demo
-            </a>
+            {project.demo !== "#" && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noreferrer"
+                className="px-5 py-3 rounded-xl border border-cyan-500 hover:bg-cyan-500/20 transition flex items-center gap-2"
+              >
+                <ExternalLink size={18}/>
+                Live Demo
+              </a>
+            )}
 
           </div>
 
@@ -76,9 +80,11 @@ export default function ProjectDetails({ project, onBack }: Props) {
 
         {/* Workflow */}
 
-        <h2 className="text-3xl font-bold mb-8">
-          Project Workflow
-        </h2>
+        {project.workflow.length > 0 && (
+          <h2 className="text-3xl font-bold mb-8">
+            Project Workflow
+          </h2>
+        )}
 
         <div className="space-y-8">
 
@@ -109,9 +115,11 @@ export default function ProjectDetails({ project, onBack }: Props) {
 
         {/* Features */}
 
-        <h2 className="text-3xl font-bold mt-16 mb-8">
-          Features
-        </h2>
+        {project.features.length > 0 && (
+          <h2 className="text-3xl font-bold mt-16 mb-8">
+            Features
+          </h2>
+        )}
 
         <div className="grid md:grid-cols-2 gap-5">
 
@@ -131,9 +139,11 @@ export default function ProjectDetails({ project, onBack }: Props) {
 
         {/* Tech Stack */}
 
-        <h2 className="text-3xl font-bold mt-16 mb-8">
-          Technology Stack
-        </h2>
+        {project.technologies.length > 0 && (
+          <h2 className="text-3xl font-bold mt-16 mb-8">
+            Technology Stack
+          </h2>
+        )}
 
         <div className="flex flex-wrap gap-4">
 
@@ -152,9 +162,11 @@ export default function ProjectDetails({ project, onBack }: Props) {
 
         {/* Challenges */}
 
-        <h2 className="text-3xl font-bold mt-16 mb-8">
-          Challenges
-        </h2>
+        {project.challenges.length > 0 && (
+          <h2 className="text-3xl font-bold mt-16 mb-8">
+            Challenges
+          </h2>
+        )}
 
         <ul className="space-y-4">
 
@@ -170,9 +182,11 @@ export default function ProjectDetails({ project, onBack }: Props) {
 
         {/* Future */}
 
-        <h2 className="text-3xl font-bold mt-16 mb-8">
-          Future Improvements
-        </h2>
+        {project.future.length > 0 && (
+          <h2 className="text-3xl font-bold mt-16 mb-8">
+            Future Improvements
+          </h2>
+        )}
 
         <ul className="space-y-4 mb-20">
 

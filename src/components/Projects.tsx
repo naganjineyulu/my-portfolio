@@ -328,6 +328,40 @@ const projects: Project[] = [
     github: "https://github.com/naganjineyulu/ExamGuard-AI-Advanced",
 
     demo: "#"
+  },
+  {
+    title: "Farmer Friendly",
+    description:
+      "A farmer support platform designed to provide crop advice, market insights, and easy access to agri-resources in a user-friendly format.",
+    overview:
+      "A farmer support platform designed to provide crop advice, market insights, and easy access to agri-resources in a user-friendly format.",
+    workflow: [
+      {
+        title: "Explore agri-resources",
+        description: "Access farmer-focused dashboards and resource pages."
+      },
+      {
+        title: "Get crop advice",
+        description: "Use crop recommendation features informed by agricultural data."
+      },
+      {
+        title: "Access information offline",
+        description: "Use offline-friendly access for rural areas."
+      }
+    ],
+    features: [
+      "Farmer-focused dashboards and resource pages",
+      "Crop recommendation features using agricultural data",
+      "Offline-friendly access for rural areas"
+    ],
+    technologies: [],
+    challenges: [],
+    future: [],
+    tags: [],
+    gradient: "from-emerald-500/10 to-cyan-400/10",
+    featured: false,
+    github: "#",
+    demo: "#"
   }
 ];
 
@@ -469,36 +503,29 @@ export default function Projects() {
 
               <div className="flex items-center">
 
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2
-                  text-slate-300
-                  hover:text-primary-400"
-                >
+                {project.github !== "#" && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 text-slate-300 hover:text-primary-400"
+                  >
+                    <Github size={18} />
+                    GitHub
+                  </a>
+                )}
 
-                  <Github size={18} />
-
-                  GitHub
-
-                </a>
-
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2
-                  ml-6
-                  text-slate-300
-                  hover:text-primary-400"
-                >
-
-                  <ExternalLink size={18} />
-
-                  Demo
-
-                </a>
+                {project.demo !== "#" && (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-6 flex items-center gap-2 text-slate-300 hover:text-primary-400"
+                  >
+                    <ExternalLink size={18} />
+                    Demo
+                  </a>
+                )}
 
                 <button
                   onClick={() => setSelectedProject(project)}

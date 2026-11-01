@@ -13,4 +13,17 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          const modulePath = id.replace(/\\/g, '/');
+
+          if (modulePath.includes('/node_modules/three/')) return 'three';
+          if (modulePath.includes('/node_modules/@react-three/fiber/')) return 'react-three-fiber';
+          if (modulePath.includes('/node_modules/@react-three/drei/')) return 'react-three-drei';
+        },
+      },
+    },
+  },
 });

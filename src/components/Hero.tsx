@@ -1,129 +1,365 @@
-import { useEffect, useState } from 'react';
-import { ArrowDown, Github, Mail, Sparkles } from 'lucide-react';
-import { useTypingEffect } from '@/hooks/useTypingEffect';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowDown, ArrowUpRight, Github, Mail } from 'lucide-react';
 
 export default function Hero() {
-  const typed = useTypingEffect(
-    ['AI & Full Stack Developer', 'MERN Stack Developer', 'UI/UX Enthusiast', 'Problem Solver'],
-    80,
-    1800
-  );
-
   const [mounted, setMounted] = useState(false);
+  const [showIdBack, setShowIdBack] = useState(false);
+  const [educationUnlocked, setEducationUnlocked] = useState(false);
+  const [educationPassword, setEducationPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const idCardRef = useRef<HTMLDivElement>(null);
+  const idCardSpringFrameRef = useRef<number | null>(null);
+  const idCardMotionRef = useRef({ angle: 0, y: 0 });
+  const idCardDragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    cardHeight: number;
+    startAngle: number;
+    startOffsetY: number;
+    previousTime: number;
+    angleVelocity: number;
+    yVelocity: number;
+    moved: boolean;
+  } | null>(null);
+  const [isIdCardDragging, setIsIdCardDragging] = useState(false);
+  const [isIdCardSpringing, setIsIdCardSpringing] = useState(false);
+
   useEffect(() => setMounted(true), []);
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== 'mouse' || !portraitRef.current || idCardDragRef.current) return;
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    portraitRef.current.style.setProperty('--portrait-x', `${x * 12}px`);
+    portraitRef.current.style.setProperty('--portrait-y', `${y * 10}px`);
+  };
+
+  const resetPointer = () => {
+    portraitRef.current?.style.setProperty('--portrait-x', '0px');
+    portraitRef.current?.style.setProperty('--portrait-y', '0px');
+  };
+
+  const handleIdCardPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (
+      event.pointerType !== 'mouse'
+      || event.button !== 0
+      || (event.target instanceof Element && event.target.closest('button, input, textarea, select, a, form'))
+      || !idCardRef.current
+    ) {
+      return;
+    }
+
+    const card = idCardRef.current;
+    if (idCardSpringFrameRef.current !== null) {
+      cancelAnimationFrame(idCardSpringFrameRef.current);
+      idCardSpringFrameRef.current = null;
+    }
+    setIsIdCardSpringing(false);
+    event.preventDefault();
+    card.setPointerCapture(event.pointerId);
+    const now = performance.now();
+    idCardDragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      cardHeight: card.offsetHeight,
+      startAngle: idCardMotionRef.current.angle,
+      startOffsetY: idCardMotionRef.current.y,
+      previousTime: now,
+      angleVelocity: 0,
+      yVelocity: 0,
+      moved: false,
+    };
+  };
+
+  const handleIdCardPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = idCardDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId || !portraitRef.current) return;
+
+    const deltaX = event.clientX - drag.startX;
+    const deltaY = event.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(deltaX, deltaY) < 3) return;
+
+    const now = performance.now();
+    const elapsed = Math.max(1, now - drag.previousTime);
+    const angle = Math.max(
+      -55,
+      Math.min(55, drag.startAngle + Math.atan2(deltaX, drag.cardHeight) * (180 / Math.PI)),
+    );
+    const y = Math.max(-220, Math.min(220, drag.startOffsetY + deltaY));
+    drag.angleVelocity = (angle - idCardMotionRef.current.angle) / elapsed * 1000;
+    drag.yVelocity = (y - idCardMotionRef.current.y) / elapsed * 1000;
+    drag.previousTime = now;
+    drag.moved = true;
+    setIsIdCardDragging(true);
+    idCardMotionRef.current = { angle, y };
+    portraitRef.current.style.setProperty('--id-card-angle', `${angle}deg`);
+    portraitRef.current.style.setProperty('--id-card-y', `${y}px`);
+  };
+
+  const startIdCardSpring = (angleVelocity: number, yVelocity: number) => {
+    const motion = idCardMotionRef.current;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      motion.angle = 0;
+      motion.y = 0;
+      portraitRef.current?.style.setProperty('--id-card-angle', '0deg');
+      portraitRef.current?.style.setProperty('--id-card-y', '0px');
+      return;
+    }
+
+    setIsIdCardSpringing(true);
+    let angleSpeed = Math.max(-1200, Math.min(1200, angleVelocity * 1.5));
+    let ySpeed = Math.max(-1800, Math.min(1800, yVelocity * 1.5));
+    let previousTime = performance.now();
+
+    const animate = (time: number) => {
+      const elapsed = Math.min((time - previousTime) / 1000, 0.032);
+      previousTime = time;
+
+      const angleAcceleration = -180 * motion.angle - 10 * angleSpeed;
+      const yAcceleration = -180 * motion.y - 10 * ySpeed;
+      angleSpeed += angleAcceleration * elapsed;
+      ySpeed += yAcceleration * elapsed;
+      motion.angle += angleSpeed * elapsed;
+      motion.y += ySpeed * elapsed;
+
+      portraitRef.current?.style.setProperty('--id-card-angle', `${motion.angle}deg`);
+      portraitRef.current?.style.setProperty('--id-card-y', `${motion.y}px`);
+
+      if (
+        Math.abs(motion.angle) < 0.08
+        && Math.abs(motion.y) < 0.5
+        && Math.abs(angleSpeed) < 0.8
+        && Math.abs(ySpeed) < 5
+      ) {
+        motion.angle = 0;
+        motion.y = 0;
+        portraitRef.current?.style.setProperty('--id-card-angle', '0deg');
+        portraitRef.current?.style.setProperty('--id-card-y', '0px');
+        idCardSpringFrameRef.current = null;
+        setIsIdCardSpringing(false);
+        return;
+      }
+
+      idCardSpringFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    idCardSpringFrameRef.current = requestAnimationFrame(animate);
+  };
+
+  const finishIdCardDrag = (pointerId: number) => {
+    const drag = idCardDragRef.current;
+    if (!drag || drag.pointerId !== pointerId) return;
+
+    idCardDragRef.current = null;
+    setIsIdCardDragging(false);
+    if (drag.moved) {
+      startIdCardSpring(drag.angleVelocity, drag.yVelocity);
+    }
+  };
+
+  useEffect(() => () => {
+    if (idCardSpringFrameRef.current !== null) {
+      cancelAnimationFrame(idCardSpringFrameRef.current);
+    }
+  }, []);
+
+  const openIdBack = () => {
+    setShowIdBack(true);
+    setPasswordError(false);
+  };
+
+  const closeIdBack = () => {
+    setShowIdBack(false);
+    setEducationUnlocked(false);
+    setEducationPassword('');
+    setPasswordError(false);
+  };
+
+  const unlockEducation = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (educationPassword === '2580') {
+      setEducationUnlocked(true);
+      setPasswordError(false);
+      setEducationPassword('');
+      return;
+    }
+
+    setPasswordError(true);
+    setEducationPassword('');
+  };
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-grid"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointer}
+      className="hero-section relative flex min-h-[100svh] items-center overflow-hidden"
     >
-      {/* Glowing orbs */}
-      <div className="orb bg-primary-500/30 w-[400px] h-[400px] -top-20 -left-20" />
-      <div className="orb bg-cyan-400/20 w-[500px] h-[500px] bottom-0 -right-20" style={{ animationDelay: '2s' }} />
-
-      {/* Orbiting tech badges */}
-      <div className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none">
-        <div className="relative w-[600px] h-[600px]">
-          <div className="orbit-ring absolute inset-0" />
-          <div className="orbit-ring absolute inset-12" />
-          <div className="orbit-ring absolute inset-24" />
-        </div>
-      </div>
-
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
-        <div
-          className={`inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-xs font-medium text-primary-300 mb-8 transition-all duration-700 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <Sparkles size={14} className="text-primary-400" />
-          Available for opportunities
-        </div>
-
-        <div className={`mb-8 flex justify-center transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <img
-            src="/profile.png"
-            alt="Naganjaneyulu - AI and Full Stack Developer"
-            className="h-32 w-32 rounded-full border-4 border-primary-500/40 object-cover shadow-[0_0_40px_rgba(34,211,238,0.25)] md:h-40 md:w-40"
-          />
-        </div>
-
-        <h1
-          className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 transition-all duration-700 delay-100 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <span className="block text-slate-100">Hi, I'm</span>
-          <span className="block gradient-text text-glow mt-2">Naganjaneyulu Medaboina</span>
-        </h1>
-
-        <div
-          className={`h-10 mb-6 transition-all duration-700 delay-200 ${
-            mounted ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <p className="text-xl md:text-2xl font-mono text-primary-400 typing-cursor">
-            {typed}
+      <div className="hero-content relative z-10 mx-auto grid w-full max-w-7xl items-center gap-4 px-6 pb-20 pt-28 lg:grid-cols-[1.06fr_0.94fr] lg:px-10">
+        <div className="hero-copy relative z-10 max-w-2xl">
+          <p className={`hero-eyebrow ${mounted ? 'is-visible' : ''}`}>
+            <span className="hero-status-dot" />
+            AI · Engineering · The web
           </p>
-        </div>
 
-        <p
-          className={`max-w-2xl mx-auto text-slate-400 text-base md:text-lg leading-relaxed mb-10 transition-all duration-700 delay-300 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          AI & Full Stack Developer and Computer Science Engineering student specializing
-          in Artificial Intelligence, scalable web applications, and modern technologies.
-        </p>
+          <h1 className={`hero-title ${mounted ? 'is-visible' : ''}`}>
+            <span className="hero-title-intro">Hi, I’m</span>
+            <span className="hero-title-name">Naganjaneyulu</span>
+          </h1>
 
-        <div
-          className={`flex flex-wrap items-center justify-center gap-4 transition-all duration-700 delay-500 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <a
-            href="#projects"
-            className="group relative inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary-500 to-cyan-400 px-7 py-3.5 font-semibold text-dark-900 transition-all hover:shadow-glow-blue hover:scale-105"
-          >
-            View My Work
-          </a>
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 rounded-lg border border-primary-500/40 bg-white/5 px-7 py-3.5 font-semibold text-slate-200 transition-all hover:bg-primary-500/10 hover:border-primary-500/60"
-          >
-            <Mail size={18} /> Get in Touch
-          </a>
-        </div>
+          <p className={`hero-role ${mounted ? 'is-visible' : ''}`}>
+            AI/ML Engineer <span aria-hidden="true">/</span> Full Stack Developer
+          </p>
 
-        <div
-          className={`flex items-center justify-center gap-6 mt-12 transition-all duration-700 delay-700 ${
-            mounted ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          {[
-            { Icon: Github, href: 'https://github.com/naganjineyulu/my-portfolio', label: 'GitHub' },
-            { Icon: Mail, href: '#contact', label: 'Email' },
-          ].map(({ Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith('http') ? '_blank' : undefined}
-              rel="noreferrer"
-              aria-label={label}
-              className="flex h-11 w-11 items-center justify-center rounded-lg glass text-slate-300 transition-all hover:text-primary-400 hover:border-primary-500/40 hover:-translate-y-1"
-            >
-              <Icon size={20} />
+          <p className={`hero-description ${mounted ? 'is-visible' : ''}`}>
+            I’m a Computer Science Engineering student focused on artificial intelligence
+            and full-stack development—building thoughtful digital experiences from idea
+            to implementation.
+          </p>
+
+          <div className={`hero-actions ${mounted ? 'is-visible' : ''}`}>
+            <a href="#projects" className="button-primary">
+              Explore My Projects <ArrowUpRight size={17} aria-hidden="true" />
             </a>
-          ))}
+            <a href="/resume.pdf" download="Naganjineyulu_Resume.pdf" className="button-secondary">
+              Download Resume
+            </a>
+          </div>
+
+          <div className={`hero-socials ${mounted ? 'is-visible' : ''}`}>
+            <a
+              href="https://github.com/naganjineyulu"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Naganjaneyulu on GitHub"
+            >
+              <Github size={17} aria-hidden="true" />
+              <span>GitHub</span>
+            </a>
+            <span className="hero-social-divider" aria-hidden="true" />
+            <a href="mailto:naganjineyulumedaboina@gmail.com">
+              <Mail size={17} aria-hidden="true" />
+              <span>Get in touch</span>
+            </a>
+          </div>
+        </div>
+
+        <div
+          ref={portraitRef}
+          className={`hero-portrait ${mounted ? 'is-visible' : ''} ${isIdCardDragging ? 'is-id-card-dragging' : ''} ${isIdCardSpringing ? 'is-id-card-springing' : ''}`}
+          aria-label="Naganjaneyulu's profile ID card"
+        >
+          <div
+            ref={idCardRef}
+            className={`portrait-id-card ${showIdBack ? 'is-returning' : ''} ${isIdCardDragging ? 'is-dragging' : ''} ${isIdCardSpringing ? 'is-springing' : ''}`}
+            onPointerDown={handleIdCardPointerDown}
+            onPointerMove={handleIdCardPointerMove}
+            onPointerUp={(event) => finishIdCardDrag(event.pointerId)}
+            onPointerCancel={(event) => finishIdCardDrag(event.pointerId)}
+          >
+            {showIdBack ? (
+              <div key="id-back" className="portrait-id-content portrait-id-back">
+                <div className="portrait-id-header">
+                  <span>EDUCATION RECORD</span>
+                  <button type="button" onClick={closeIdBack} className="portrait-id-turn">
+                    FRONT ↻
+                  </button>
+                </div>
+
+                {educationUnlocked ? (
+                  <div className="education-record-list">
+                    <article className="education-record">
+                      <span>10TH CLASS</span>
+                      <h3>Tirumala Oxford School</h3>
+                      <p>Piduguralla</p>
+                      <p className="education-record-marks">Marks: 85%</p>
+                    </article>
+                    <article className="education-record">
+                      <span>12TH CLASS</span>
+                      <h3>Oxford Junior College</h3>
+                      <p>Piduguralla</p>
+                      <p className="education-record-marks">Marks: 65.6%</p>
+                    </article>
+                    <article className="education-record">
+                      <span>B.TECH</span>
+                      <h3>Parul University</h3>
+                      <p>Vadodara</p>
+                      <p className="education-record-marks">CGPA: 6.72 (current)</p>
+                    </article>
+                  </div>
+                ) : (
+                  <form className="education-lock-form" onSubmit={unlockEducation}>
+                    <p className="portrait-id-label">ENTER THE 4-DIGIT PASSWORD TO VIEW THE EDUCATION DETAILS</p>
+                    <label htmlFor="education-card-password">Password</label>
+                    <input
+                      id="education-card-password"
+                      type="password"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      maxLength={4}
+                      value={educationPassword}
+                      onChange={(event) => {
+                        setEducationPassword(event.target.value.replace(/\D/g, ''));
+                        setPasswordError(false);
+                      }}
+                      aria-invalid={passwordError}
+                      aria-describedby={passwordError ? 'education-password-error' : undefined}
+                      placeholder="••••"
+                    />
+                    {passwordError && <p id="education-password-error" className="education-password-error">That password did not match. Try again.</p>}
+                    <button type="submit" className="education-unlock-button">UNLOCK DETAILS</button>
+                  </form>
+                )}
+              </div>
+            ) : (
+              <div key="id-front" className="portrait-id-content portrait-id-front">
+                <div className="portrait-id-header">
+                  <span>PORTFOLIO ID</span>
+                  <span>01 / 06</span>
+                </div>
+                <div className="portrait-id-main">
+                  <div
+                    className="portrait-photo"
+                    onDoubleClick={openIdBack}
+                    title="Double-click to turn the ID card"
+                  >
+                    <img
+                      src="/profile.png"
+                      alt="Naganjaneyulu wearing a black suit, white shirt, and black tie"
+                      className="portrait-image"
+                      draggable={false}
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="portrait-id-details">
+                    <p className="portrait-id-label">NAME</p>
+                    <h2>Naganjaneyulu Medaboina</h2>
+                    <p className="portrait-id-label">ROLE</p>
+                    <p className="portrait-id-role">AI/ML Engineer<br />Full Stack Developer</p>
+                  </div>
+                </div>
+                <div className="portrait-id-footer">
+                  <span><span className="portrait-id-status" /> COMPUTER SCIENCE ENGINEERING</span>
+                  <button type="button" onClick={openIdBack} className="portrait-id-turn">VIEW BACK ↻</button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       <a
         href="#about"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-500 hover:text-primary-400 transition-colors animate-bounce-slow"
-        aria-label="Scroll down"
+        className="scroll-cue absolute bottom-7 left-1/2 z-10 -translate-x-1/2"
+        aria-label="Scroll to about section"
       >
-        <ArrowDown size={28} />
+        <span>Scroll to explore</span>
+        <ArrowDown size={15} aria-hidden="true" />
       </a>
     </section>
   );

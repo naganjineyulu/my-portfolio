@@ -5,10 +5,10 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
-import Experience from '@/components/Experience';
+import Education from '@/components/Education';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
-import ParticleBackground from '@/components/ParticleBackground';
+import SceneBackground from '@/components/SceneBackground';
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -37,8 +37,20 @@ function App() {
         style={{ width: `${progress}%` }}
       />
 
-      {/* Animated particle background */}
-      <ParticleBackground />
+      <div className="site-video-background" aria-hidden="true">
+        <video
+          className="site-background-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          tabIndex={-1}
+        >
+          <source src="/ai-circuits-background.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <SceneBackground />
 
       <div className="relative z-10">
         {/* Navigation */}
@@ -49,7 +61,7 @@ function App() {
           <About />
           <Skills />
           <Projects />
-          <Experience />
+          <Education />
           <Contact />
         </main>
 
@@ -61,4 +73,3 @@ function App() {
 }
 
 export default App;
-

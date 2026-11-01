@@ -1,5 +1,5 @@
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 
 function WhatsAppIcon({ size = 20 }: { size?: number }) {
   return (
@@ -19,71 +19,82 @@ function WhatsAppIcon({ size = 20 }: { size?: number }) {
   );
 }
 
+const contactInfo = [
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'naganjaneyulumedaboina@gmail.com',
+    href: 'mailto:naganjaneyulumedaboina@gmail.com',
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+91 88865 46562',
+    href: 'tel:+918886546562',
+  },
+  {
+    icon: MapPin,
+    label: 'Location',
+    value: 'India',
+    href: 'https://maps.google.com/?q=India',
+  },
+];
+
 export default function Contact() {
   const { ref, isVisible } = useIntersectionObserver();
 
-  const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'naganjineyulumedaboina@gmail.com', href: 'mailto:naganjineyulumedaboina@gmail.com' },
-    { icon: Phone, label: 'Phone', value: '8886546562', href: 'tel:8886546562' },
-    { icon: MapPin, label: 'Location', value: 'India', href: '#' },
-  ];
-
   return (
-    <section id="contact" ref={ref as React.RefObject<HTMLElement>} className="relative py-24 md:py-32">
-      <div className="orb bg-primary-500/20 w-[450px] h-[450px] top-0 left-1/4" />
-      <div className="max-w-5xl mx-auto px-6">
-        <div className={`reveal ${isVisible ? 'visible' : ''} text-center mb-14`}>
-          <p className="font-mono text-primary-400 text-sm mb-3">// 05. contact</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-4">
-            Let's Build Something
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            Have a project in mind or just want to say hi? My inbox is always open.
+    <section
+      id="contact"
+      ref={ref as React.RefObject<HTMLElement>}
+      className="content-section contact-section"
+    >
+      <div className="section-container">
+        <div className={`section-heading reveal ${isVisible ? 'visible' : ''}`}>
+          <p className="section-kicker">05 <span>/</span> Get in touch</p>
+          <h2>Have something <span>in mind?</span></h2>
+          <p className="section-lede">
+            For project conversations, opportunities, or a friendly hello—reach out directly.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-5 gap-8">
-          <div className={`md:col-span-2 space-y-4 reveal-left ${isVisible ? 'visible' : ''}`}>
-            {contactInfo.map(info => {
-              const Icon = info.icon;
-              return (
-                <a
-                  key={info.label}
-                  href={info.href}
-                  className="glass-card rounded-xl p-5 flex items-center gap-4 transition-all hover:-translate-y-1 hover:border-primary-500/40"
-                >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-500/15 border border-primary-500/30 text-primary-400">
-                    <Icon size={20} />
-                  </span>
-                  <div>
-                    <p className="text-xs text-slate-500 uppercase tracking-wider">{info.label}</p>
-                    <p className="text-sm text-slate-200 font-medium">{info.value}</p>
-                  </div>
-                </a>
-              );
-            })}
-
+        <div className="contact-layout">
+          <div className={`contact-details reveal-left ${isVisible ? 'visible' : ''}`}>
+            {contactInfo.map(({ icon: Icon, label, value, href }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith('https://') ? '_blank' : undefined}
+                rel={href.startsWith('https://') ? 'noreferrer' : undefined}
+                className="contact-detail"
+              >
+                <Icon size={18} aria-hidden="true" />
+                <div>
+                  <p>{label}</p>
+                  <span>{value}</span>
+                </div>
+                <ArrowUpRight size={15} className="contact-detail-arrow" aria-hidden="true" />
+              </a>
+            ))}
           </div>
 
-          <div className={`md:col-span-3 glass-card rounded-2xl p-6 md:p-8 reveal-right ${
-              isVisible ? 'visible' : ''
-            }`}>
-            <div className="flex flex-col gap-6">
-              <div>
-                <p className="text-sm text-slate-400 mb-4">
-                  Send a message directly on WhatsApp for faster response and hiring inquiries.
-                </p>
-                <a
-                  href="https://wa.me/918886546562"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-3 rounded-xl border border-primary-500/30 bg-primary-500/10 px-6 py-5 text-slate-100 transition-all hover:bg-primary-500/15 hover:text-primary-200"
-                >
-                  <WhatsAppIcon size={24} />
-                  <span className="font-medium">Chat on WhatsApp +91 88865 46562</span>
-                </a>
-              </div>
-            </div>
+          <div className={`contact-cta reveal-right ${isVisible ? 'visible' : ''}`}>
+            <div className="contact-cta-orb" aria-hidden="true" />
+            <p className="contact-cta-kicker">Prefer a quick chat?</p>
+            <h3>Let’s start a conversation.</h3>
+            <p className="contact-cta-copy">
+              Send a message directly on WhatsApp for project inquiries and opportunities.
+            </p>
+            <a
+              href="https://wa.me/918886546562"
+              target="_blank"
+              rel="noreferrer"
+              className="button-primary"
+            >
+              <WhatsAppIcon size={18} />
+              Chat on WhatsApp
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>
