@@ -209,7 +209,10 @@ export default function Hero() {
 
           <h1 className={`hero-title ${mounted ? 'is-visible' : ''}`}>
             <span className="hero-title-intro">Hi, I’m</span>
-            <span className="hero-title-name">Naganjaneyulu</span>
+            <span className="hero-title-name">
+              Naganjaneyulu
+              <span className="hero-title-surname">Medaboina</span>
+            </span>
           </h1>
 
           <p className={`hero-role ${mounted ? 'is-visible' : ''}`}>
