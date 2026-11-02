@@ -1,5 +1,5 @@
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowUpRight, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 
 function WhatsAppIcon({ size = 20 }: { size?: number }) {
   return (
@@ -25,6 +25,12 @@ const contactInfo = [
     label: 'Email',
     value: 'naganjaneyulumedaboina@gmail.com',
     href: 'mailto:naganjaneyulumedaboina@gmail.com',
+  },
+  {
+    icon: Linkedin,
+    label: 'LinkedIn',
+    value: 'View my LinkedIn profile',
+    href: 'https://www.linkedin.com/in/medaboinanaganjineyulu-88145434b',
   },
   {
     icon: Phone,
