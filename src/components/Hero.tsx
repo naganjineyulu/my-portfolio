@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowUpRight, Github, Mail } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -243,6 +243,16 @@ export default function Hero() {
             >
               <Github size={17} aria-hidden="true" />
               <span>GitHub</span>
+            </a>
+            <span className="hero-social-divider" aria-hidden="true" />
+            <a
+              href="https://www.linkedin.com/in/medaboinanaganjineyulu-88145434b"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Naganjaneyulu on LinkedIn"
+            >
+              <Linkedin size={17} aria-hidden="true" />
+              <span>LinkedIn</span>
             </a>
             <span className="hero-social-divider" aria-hidden="true" />
             <a href="mailto:naganjineyulumedaboina@gmail.com">

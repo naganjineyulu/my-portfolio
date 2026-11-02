@@ -1,4 +1,4 @@
-import { ArrowUp, Github, Mail } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -9,6 +9,14 @@ export default function Footer() {
         <div className="footer-links">
           <a href="https://github.com/naganjineyulu" target="_blank" rel="noreferrer" aria-label="GitHub">
             <Github size={17} aria-hidden="true" />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/medaboinanaganjineyulu-88145434b"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+          >
+            <Linkedin size={17} aria-hidden="true" />
           </a>
           <a href="mailto:naganjaneyulumedaboina@gmail.com" aria-label="Email">
             <Mail size={17} aria-hidden="true" />
