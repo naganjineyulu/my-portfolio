@@ -1600,6 +1600,7 @@ body {
 .hero-title-name {
   font-size: clamp(4.2rem, 6vw, 5.4rem);
   line-height: 0.82;
+  letter-spacing: 0.015em;
 }
 
 .hero-title-surname {
